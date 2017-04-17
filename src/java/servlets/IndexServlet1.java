@@ -51,7 +51,7 @@ public class IndexServlet1 extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
             //response.sendRedirect(paginaRedireccionar);
             
-        } catch (Exception e) { 
+        } catch (Exception e) {
             request.getSession().setAttribute("error", e.getMessage() == null ? "Se ha generado un objeto nulo" : e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
