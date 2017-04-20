@@ -1,11 +1,19 @@
 package servlets;
 
+import com.google.gson.Gson;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.StringReader;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import org.dom4j.io.SAXReader;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
 
 /**
  *
@@ -31,7 +39,7 @@ public class IndexServlet1 extends HttpServlet {
                 }
                 case 1:
                 {
-                    subeArchivo(request, response);
+                    evaluaXML(request, response);
                     break;
                 }
                 case 999:
@@ -57,9 +65,25 @@ public class IndexServlet1 extends HttpServlet {
         }
     }
     
-    private void subeArchivo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    private void evaluaXML(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            request.getParameter("file");
+            String xml = request.getParameter("txtaXML");
+            //System.out.println(xml);
+            SAXReader reader = new SAXReader();
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(new File(xml));
+            NodeList labTestList = doc.getElementsByTagName("LabTest");
+            //TODO Hay 3 alternativas para poder realizar la lectura del XML, 
+            //1. por medio del fileupload que llama un servlet independiente. 
+            //2. Leyendo directamente el archivo guardándolo en una ruta específica. 
+            //3. Copiando el texto en un textarea con el fin de leerlo desde el servlet principal
+            System.out.println("--------------------------+++++++++++++++++++++++------------------------");
+            //System.out.println(document.getText());
+            String json = new Gson().toJson(xml);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
         } catch (Exception e) {
         }
     }

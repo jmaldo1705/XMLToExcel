@@ -22,8 +22,9 @@
             </center>
         </form>
         <br />
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Cargue Manual</button>
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSubmit">Cargue Manual</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalForm">Digita XML</button>
+        <div class="modal fade" id="modalSubmit" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -32,10 +33,28 @@
                     </div>
                     <div class="modal-body">
                         <form id="data" method="post" action="FileUploadServlet" enctype="multipart/form-data">
-                            <input id="fileupload" type="file" name="files[]" data-url="FileUploadServlet" multiple>
+                            <input id="fileupload" type="file" name="file" data-url="FileUploadServlet">
                             <br />
                             <button type="button" id="btnSubmit" class="btn btn-primary btn-sm">Enviar</button>
                         </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal" id="modalForm" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Copia XML</h4>
+                    </div>
+                    <div class="modal-body">
+                        <textarea id="rutaXML" style="width: 97%; height: 350px;"></textarea>
+                        <br /><br />
+                        <button type="button" id="btnSubmit2" class="btn btn-primary btn-sm">Enviar</button>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
