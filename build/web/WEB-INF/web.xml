@@ -8,6 +8,10 @@
         <servlet-name>FileUploadServlet</servlet-name>
         <servlet-class>servlets.FileUploadServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ArchivosServlet</servlet-name>
+        <servlet-class>servlets.ArchivosServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IndexServlet1</servlet-name>
         <url-pattern>/IndexServlet1</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>FileUploadServlet</servlet-name>
         <url-pattern>/FileUploadServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ArchivosServlet</servlet-name>
+        <url-pattern>/ArchivosServlet</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>IndexServlet1</welcome-file>

@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringReader;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -12,8 +11,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import org.dom4j.io.SAXReader;
+import static org.joox.JOOX.$;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+import plantillas.Funciones;
 
 /**
  *
@@ -88,8 +90,17 @@ public class IndexServlet1 extends HttpServlet {
         }
     }
     
-    public void pruebas(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        System.out.println("....Probando....");
+    public void pruebas(HttpServletRequest request, HttpServletResponse response) throws IOException, SAXException{
+        File prueba = new File("C:\\Users\\jmaldonadoa\\Downloads\\pruebas_vaps_XMLBody1\\Funciones\\pom.xml");
+        $(new File("C:\\Users\\jmaldonadoa\\Downloads\\pruebas_vaps_XMLBody1\\Funciones\\pom.xml")).find("groupId").each(ctx -> {
+            System.out.println(
+                $(ctx).text() + ":" +
+                $(ctx).siblings("artifactId").text() + ":" +
+                $(ctx).siblings("version").text()
+            );
+        });
+        Funciones funciones = new Funciones();
+        //System.out.println(funciones.getCabeceraSinSaltos());
     }
     
     @Override
@@ -97,7 +108,7 @@ public class IndexServlet1 extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
