@@ -10,12 +10,18 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import org.dom4j.io.SAXReader;
 import static org.joox.JOOX.$;
-import org.w3c.dom.Document;
+/*import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
+import org.xml.sax.SAXException;*/
 import plantillas.Funciones;
+import org.jdom2.Attribute;
+import org.jdom2.Document;
+import org.jdom2.Element;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
 
 /**
  *
@@ -69,36 +75,37 @@ public class IndexServlet1 extends HttpServlet {
     
     private void evaluaXML(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            String xml = request.getParameter("txtaXML");
-            //System.out.println(xml);
-            SAXReader reader = new SAXReader();
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document doc = builder.parse(new File(xml));
-            NodeList labTestList = doc.getElementsByTagName("LabTest");
-            //TODO Hay 3 alternativas para poder realizar la lectura del XML, 
-            //1. por medio del fileupload que llama un servlet independiente. 
-            //2. Leyendo directamente el archivo guardándolo en una ruta específica. 
-            //3. Copiando el texto en un textarea con el fin de leerlo desde el servlet principal
+            String rutaXML = request.getParameter("rutaXML").replace("\\", "\\\\");
+            File file = new File("C:\\Users\\jmaldonadoa\\Downloads\\pruebas_vaps_XMLBody1\\Funciones\\Functions_3.xml");
+            /*DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
+            Document document = documentBuilder.parse(file);
             System.out.println("--------------------------+++++++++++++++++++++++------------------------");
-            //System.out.println(document.getText());
-            String json = new Gson().toJson(xml);
+            Node node;
+            //System.out.println(document.getElementsByTagName("instance-list").item(0).getTextContent());
+            for(int i = 0; i < document.getElementsByTagName("instance-list").getLength(); i++){
+                node = document.getElementsByTagName("instance-list").item(i);
+                System.out.println(findNode(node, rutaXML, true, true).getNodeValue());
+            }
+            System.out.println("--------------------------+++++++++++++++++++++++------------------------");*/
+            String json = new Gson().toJson("");
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
         } catch (Exception e) {
+            System.out.println("Error: " + e);
         }
     }
     
-    public void pruebas(HttpServletRequest request, HttpServletResponse response) throws IOException, SAXException{
+    public void pruebas(HttpServletRequest request, HttpServletResponse response) throws IOException{
         File prueba = new File("C:\\Users\\jmaldonadoa\\Downloads\\pruebas_vaps_XMLBody1\\Funciones\\pom.xml");
-        $(new File("C:\\Users\\jmaldonadoa\\Downloads\\pruebas_vaps_XMLBody1\\Funciones\\pom.xml")).find("groupId").each(ctx -> {
+        /*$(new File("C:\\Users\\jmaldonadoa\\Downloads\\pruebas_vaps_XMLBody1\\Funciones\\pom.xml")).find("groupId").each(ctx -> {
             System.out.println(
                 $(ctx).text() + ":" +
                 $(ctx).siblings("artifactId").text() + ":" +
                 $(ctx).siblings("version").text()
             );
-        });
+        });*/
         Funciones funciones = new Funciones();
         //System.out.println(funciones.getCabeceraSinSaltos());
     }

@@ -52,7 +52,7 @@
                         <h4 class="modal-title">Copia XML</h4>
                     </div>
                     <div class="modal-body">
-                        <textarea id="rutaXML" style="width: 97%; height: 350px;"></textarea>
+                        <input type="text" id="rutaXML" style="width: 200px;" />
                         <br /><br />
                         <button type="button" id="btnSubmit2" class="btn btn-primary btn-sm">Enviar</button>
                     </div>

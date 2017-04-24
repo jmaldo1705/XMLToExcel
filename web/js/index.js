@@ -20,7 +20,7 @@ function evaluaXML(){
         method: "POST",
         url: "IndexServlet1",
         data: {accion: 1, 
-               txtaXML: $("#txtaXML").val()},
+               rutaXML: $("#rutaXML").val()},
         dataType: "json",
         success: function(d) {
             alert("ok");
