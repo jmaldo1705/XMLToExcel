@@ -18,11 +18,7 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import org.dom4j.Document;
-import org.w3c.dom.Node;
-import org.xml.sax.SAXException;
 
 /**
  *
@@ -42,21 +38,16 @@ public class FileUploadServlet extends HttpServlet {
             InputStream is =request.getInputStream();
             DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
             DocumentBuilder db = dbf.newDocumentBuilder();
-            Document doc = (Document) db.parse(is);
             
-            DOMSource domSource = new DOMSource((Node) doc);
             StringWriter writer = new StringWriter();
             StreamResult result = new StreamResult(writer);
             TransformerFactory tf = TransformerFactory.newInstance();
             Transformer transformer = tf.newTransformer();
             transformer.setOutputProperty(OutputKeys.INDENT, "yes"); //pretty printing
-            transformer.transform(domSource, result);
             System.out.println("XML IN String format is: \n" + writer.toString());
             
             response.setContentType("application/json");
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(FileUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SAXException ex) {
             Logger.getLogger(FileUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (TransformerConfigurationException ex) {
             Logger.getLogger(FileUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
