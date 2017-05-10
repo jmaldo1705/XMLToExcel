@@ -87,6 +87,7 @@ public class IndexServlet1 extends HttpServlet {
             List<Element> listaCasos;
             List<Element> listaDetalle;
             List<Element> listaCondiciones;
+            List<Element> listaCondiciones2;
             List<Element> listaAcciones;
             String tituloTabla;
             for(int i = 0; i < listaTablaSencillasColumnas.size(); i++){
@@ -111,12 +112,27 @@ public class IndexServlet1 extends HttpServlet {
                                                         System.out.println(l + "--" + listaCasos.get(l).getName());
                                                         if(listaCasos.get(l).getChildren().size() > 0){
                                                             listaDetalle = listaCasos.get(l).getChildren();
-                                                            for(int m = 0; 0 < listaDetalle.size(); m++){
+                                                            for(int m = 0; m < listaDetalle.size(); m++){
                                                                 if(listaDetalle.get(m).getAttributeValue("ref") != null && listaDetalle.get(m).getAttributeValue("ref").equals("condition cells")){
-                                                                    
+                                                                    System.out.println(m + "--" + listaDetalle.get(m).getName());
+                                                                    if(listaDetalle.get(m).getChildren().size() > 0){
+                                                                        listaCondiciones = listaDetalle.get(m).getChildren();
+                                                                        for(int n = 0; n < listaCondiciones.size(); n++){
+                                                                            System.out.println(n + "--" + listaCondiciones.get(n).getName());
+                                                                            System.out.println("Instance--" + listaCondiciones.get(n).getChildren().get(0).getName());
+                                                                            System.out.println("Campo: " + listaCondiciones.get(n).getChildren().get(0).getChildren().get(0).getText());
+                                                                            System.out.println("Instance-selection--" + listaCondiciones.get(n).getChildren().get(1).getName());
+                                                                            if(listaCondiciones.get(n).getChildren().get(1).getChildren().size() > 0){
+                                                                                 listaCondiciones2 = listaCondiciones.get(n).getChildren().get(1).getChildren();
+                                                                                 for(int o = 0; o < listaCondiciones2.size(); o++){
+                                                                                       
+                                                                                 }
+                                                                            }
+                                                                        }
+                                                                    }
                                                                 }
                                                                 if(listaDetalle.get(m).getAttributeValue("ref") != null && listaDetalle.get(m).getAttributeValue("ref").equals("action cells")){
-                                                                    
+                                                                    System.out.println(m + "--" + listaDetalle.get(m).getName());
                                                                 }
                                                             }
                                                         }
