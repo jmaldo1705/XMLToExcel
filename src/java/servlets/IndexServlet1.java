@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,7 +81,8 @@ public class IndexServlet1 extends HttpServlet {
             Element rss = jdomDocument.getRootElement();
             //System.out.println(rss.getNamespacesIntroduced());
             //List<Object> listaGeneral = XMLRec(rss);
-            
+            List<Object> listaReturn = new ArrayList<>();
+            List<Object> listaTabla;
             List<Element> listaTablaSencillasColumnas = rss.getChildren();
             List<Element> listaTablas;
             List<Element> listaCaracteristicas;
@@ -107,6 +109,8 @@ public class IndexServlet1 extends HttpServlet {
                                                 listaCasos = listaCaracteristicas.get(k).getChildren().get(2).getChildren();
                                                 tituloTabla = listaCaracteristicas.get(k).getChildren().get(1).getChildren().get(0).getText();
                                                 System.out.println("titulo tabla: " + tituloTabla);
+                                                listaTabla = new ArrayList<>();
+                                                listaTabla.add(tituloTabla);
                                                 for(int l = 0; l < listaCasos.size(); l++){
                                                     if(listaCasos.get(l).getAttributeValue("template") != null && listaCasos.get(l).getAttributeValue("template").equals("FEz9YZQmu9eM8GAbOXhIEg8lXD5.template1.Decision Table Case Template")){
                                                         System.out.println(l + "--" + listaCasos.get(l).getName());
@@ -125,7 +129,10 @@ public class IndexServlet1 extends HttpServlet {
                                                                             if(listaCondiciones.get(n).getChildren().get(1).getChildren().size() > 0){
                                                                                  listaCondiciones2 = listaCondiciones.get(n).getChildren().get(1).getChildren();
                                                                                  for(int o = 0; o < listaCondiciones2.size(); o++){
-                                                                                       
+                                                                                       System.out.println(o + "--" + listaCondiciones2.get(o).getName());
+                                                                                       for(int p = 0; p < listaCondiciones2.get(o).getChildren().size(); p++){
+                                                                                           System.out.println(p + "-+-" + listaCondiciones2.get(o).getChildren().get(p).getChildren().get(0).getText());
+                                                                                       }
                                                                                  }
                                                                             }
                                                                         }

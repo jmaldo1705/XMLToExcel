@@ -9,6 +9,12 @@ function eventos(){
     $("#btnSubmit2").on("click", function(){
         evaluaXML();
     });
+    $('.datatable').DataTable({
+        dom: 'Bfrtip',
+        buttons: [
+            'copy', 'csv', 'excel', 'pdf', 'print'
+        ]
+    });
 }
 
 function cargaArchivos(){

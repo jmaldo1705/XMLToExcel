@@ -20,10 +20,6 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
-/**
- *
- * @author jmaldonadoa
- */
 @MultipartConfig
 public class FileUploadServlet extends HttpServlet {
     
