@@ -1,6 +1,6 @@
 package servlets;
 
-import clases.Archivos;
+//import clases.Archivos;
 import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
@@ -68,7 +68,7 @@ public class ArchivosServlet extends HttpServlet {
             ruta = new File(".").getCanonicalPath();
         }
         List<String> archivo;
-        List<Archivos> lista = new ArrayList<Archivos>();
+        /*List<Archivos> lista = new ArrayList<Archivos>();
         File folder = new File(ruta);
         Archivos archivos;
         for (final File fileEntry : folder.listFiles()) {
@@ -92,7 +92,7 @@ public class ArchivosServlet extends HttpServlet {
         String json = new Gson().toJson(lista);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json);
+        response.getWriter().write(json);*/
     }
     
     private void eliminaArchivo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
