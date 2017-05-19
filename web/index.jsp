@@ -11,16 +11,19 @@
         <link href="css/index.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <form action="IndexServlet1?accion=1" class="dropzone dropzone-file-area" id="my-dropzone" style="width: 500px;">
+        <!--form action="IndexServlet1?accion=1" class="dropzone dropzone-file-area" id="my-dropzone" style="width: 500px;">
             <center>
                 <h3 class="sbold">Examina XML</h3>
                 <p>Arrastra XML o click para seleccionar uno</p>
             </center>
-        </form>
+        </form-->
         <br />
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSubmit">Cargue Manual</button>
-        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalForm">Digita XML</button>
+        <input class="form-control" id="rutaXML" type="text">
+        <br />
+        <button type="button" class="btn btn-primary" data-toggle="modal" id="btnVariables">Variables</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTablas">Tablas</button>
         <br /><br /><br />
+        <div id="divVariables"></div>
         <div id="divTablas"></div>
         <div class="modal fade" id="modalSubmit" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
@@ -42,7 +45,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal" id="modalForm" tabindex="-1" role="dialog">
+        <!--div class="modal" id="modalForm" tabindex="-1" role="dialog">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -59,7 +62,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div-->
         <script src="plugins/js/jquery.min.js" type="text/javascript"></script>
         <script src="plugins/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="plugins/js/jquery.blockui.min.js" type="text/javascript"></script>

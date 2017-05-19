@@ -72,11 +72,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void tablas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            //File file = new File(request.getParameter("rutaXML").replace("\\", "\\\\"));
-            //File file = new File("C:\\Users\\jmaldonadoa\\Downloads\\pruebas_vaps_XMLBody\\Pruebas_Vaps\\Tablas\\Strategy Tables_4");
-            //File file = new File("C:\\Users\\jmaldonadoa\\Downloads\\pruebas_vaps_XMLBody2\\Pruebas_Vaps\\Tablas\\Strategy Tables_8");
-            //File file = new File("C:\\Users\\jmaldonadoa\\Downloads\\asignacion_total_libranzas_XMLBody\\Asignacion_Total_Libranzas\\Tablas\\Strategy Tables_22");
-            File file = new File("C:\\Users\\jmaldonadoa\\Downloads\\tdc_express_epik_XMLBody\\TDC_EXPRESS_EPIK\\Tablas\\Strategy Tables_3");
+            File file = new File("C:\\Users\\jmaldonadoa\\Downloads\\viabilidades_vehiculo_XMLBody\\VIABILIDADES_VEHICULO\\Tablas\\Strategy Tables_11");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
