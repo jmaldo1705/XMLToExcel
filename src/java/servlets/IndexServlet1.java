@@ -47,6 +47,16 @@ public class IndexServlet1 extends HttpServlet {
                     tablas(request, response);
                     break;
                 }
+                case 2:
+                {
+                    variablesTenant(request, response);
+                    break;
+                }
+                case 3:
+                {
+                    variablesBureau(request, response);
+                    break;
+                }
                 case 999:
                 {
                     pruebas(request, response);
@@ -156,6 +166,107 @@ public class IndexServlet1 extends HttpServlet {
                     }
                 }
             }
+            String json = new Gson().toJson(listaReturn);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+        } catch (IOException | JDOMException e) {
+            System.out.println("Error: " + e);
+        }
+    }
+    
+    private void variablesTenant(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        try {
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\Davivienda\\scoring_sector_transporte_XMLBody\\Variables\\Tenant Extensions_106");
+            SAXBuilder jdomBuilder = new SAXBuilder();
+            Document jdomDocument = jdomBuilder.build(file);
+            Element rss = jdomDocument.getRootElement();
+            List<Object> listaReturn = new ArrayList<>();
+            List<Element> listaVariables = rss.getChildren();
+            List<Element> listaTenant;
+            List<Element> listaForm;
+            List<Object> lista3;
+            List<Object> listaVariablesEstrategia = new ArrayList<>();
+            List<Object> listaVariablesFormulario = new ArrayList<>();
+            String temp;
+            
+            listaTenant = listaVariables.get(2).getChildren().get(2).getChildren();
+            listaForm = listaVariables.get(2).getChildren().get(3).getChildren();
+            
+            for(int i = 0; i < listaTenant.size(); i++){
+                lista3 = new ArrayList<>();
+                lista3.add(listaTenant.get(i).getChildren().get(0).getChildren().get(0).getText());
+                lista3.add(listaTenant.get(i).getChildren().get(1).getChildren().get(0).getText());
+                lista3.add(listaTenant.get(i).getChildren().get(2).getChildren().get(0).getText());
+                lista3.add(listaTenant.get(i).getChildren().get(3).getChildren().get(0).getText());
+                listaVariablesEstrategia.add(lista3);
+            }
+            
+            for(int i = 0; i < listaForm.size(); i++){
+                lista3 = new ArrayList<>();
+                lista3.add(listaForm.get(i).getChildren().get(0).getChildren().get(0).getText());
+                lista3.add(listaForm.get(i).getChildren().get(1).getChildren().get(0).getText());
+                lista3.add(listaForm.get(i).getChildren().get(5).getChildren().get(0).getText());
+                lista3.add(listaForm.get(i).getChildren().get(2).getChildren().get(0).getText());
+                lista3.add(listaForm.get(i).getChildren().get(8).getChildren().get(0).getText());
+                if(listaForm.get(i).getChildren().get(7).getChildren().size() > 0){
+                    temp = "";
+                    for(int j = 0; j < listaForm.get(i).getChildren().get(7).getChildren().size(); j++){
+                        temp += "<br />Display Name: <b>" + listaForm.get(i).getChildren().get(7).getChildren().get(j).getChildren().get(0).getChildren().get(0).getText() + 
+                                "</b> Value: <b>" + listaForm.get(i).getChildren().get(7).getChildren().get(j).getChildren().get(1).getChildren().get(0).getText() + "</b>";
+                    }
+                    lista3.add(temp);
+                }
+                else
+                    lista3.add("");
+                listaVariablesFormulario.add(lista3);
+            }
+            
+            listaReturn.add(listaVariablesEstrategia);
+            listaReturn.add(listaVariablesFormulario);
+            String json = new Gson().toJson(listaReturn);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+        } catch (IOException | JDOMException e) {
+            System.out.println("Error: " + e);
+        }
+    }
+    
+    private void variablesBureau(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        try {
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\Davivienda\\scoring_sector_transporte_XMLBody\\Variables\\Bureau Extensions_13");
+            SAXBuilder jdomBuilder = new SAXBuilder();
+            Document jdomDocument = jdomBuilder.build(file);
+            Element rss = jdomDocument.getRootElement();
+            List<Object> listaReturn = new ArrayList<>();
+            List<Element> listaVariables = rss.getChildren();
+            List<Element> listaBureau;
+            List<Element> listaScore;
+            List<Object> lista3;
+            List<Object> listaVariablesEstrategia = new ArrayList<>();
+            List<Object> listaScoresEstrategia = new ArrayList<>();
+            
+            listaBureau = listaVariables.get(2).getChildren().get(2).getChildren();
+            listaScore = listaVariables.get(2).getChildren().get(3).getChildren();
+            
+            for(int i = 0; i < listaBureau.size(); i++){
+                lista3 = new ArrayList<>();
+                lista3.add(listaBureau.get(i).getChildren().get(5).getChildren().get(0).getText());
+                lista3.add(listaBureau.get(i).getChildren().get(0).getChildren().get(0).getText());
+                lista3.add(listaBureau.get(i).getChildren().get(1).getChildren().get(0).getText());
+                listaVariablesEstrategia.add(lista3);
+            }
+            
+            for(int i = 0; i < listaScore.size(); i++){
+                lista3 = new ArrayList<>();
+                lista3.add(listaScore.get(i).getChildren().get(5).getChildren().get(0).getText());
+                lista3.add(listaScore.get(i).getChildren().get(0).getChildren().get(0).getText());
+                lista3.add(listaScore.get(i).getChildren().get(1).getChildren().get(0).getText());
+                listaScoresEstrategia.add(lista3);
+            }
+            listaReturn.add(listaVariablesEstrategia);
+            listaReturn.add(listaScoresEstrategia);
             String json = new Gson().toJson(listaReturn);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

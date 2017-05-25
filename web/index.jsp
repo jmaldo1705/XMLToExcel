@@ -20,7 +20,8 @@
         <br />
         <input class="form-control" id="rutaXML" type="text">
         <br />
-        <button type="button" class="btn btn-primary" data-toggle="modal" id="btnVariables">Variables</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" id="btnBureau">Variables Bureau</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTenant">Variables Tenant</button>
         <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTablas">Tablas</button>
         <br /><br /><br />
         <div id="divVariables"></div>
