@@ -11,18 +11,13 @@
         <link href="css/index.css" rel="stylesheet" type="text/css" />
     </head>
     <body>
-        <!--form action="IndexServlet1?accion=1" class="dropzone dropzone-file-area" id="my-dropzone" style="width: 500px;">
-            <center>
-                <h3 class="sbold">Examina XML</h3>
-                <p>Arrastra XML o click para seleccionar uno</p>
-            </center>
-        </form-->
         <br />
         <input class="form-control" id="rutaXML" type="text">
         <br />
         <button type="button" class="btn btn-primary" data-toggle="modal" id="btnBureau">Variables Bureau</button>
         <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTenant">Variables Tenant</button>
         <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTablas">Tablas</button>
+        <button type="button" class="btn btn-primary" data-toggle="modal" id="btnArboles">&Aacute;rboles</button>
         <br /><br /><br />
         <div id="divVariables"></div>
         <div id="divTablas"></div>
@@ -46,24 +41,6 @@
                 </div>
             </div>
         </div>
-        <!--div class="modal" id="modalForm" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title">Copia XML</h4>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" id="rutaXML" style="width: 200px;" />
-                        <br /><br />
-                        <button type="button" id="btnSubmit2" class="btn btn-primary btn-sm">Enviar</button>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
-                    </div>
-                </div>
-            </div>
-        </div-->
         <script src="plugins/js/jquery.min.js" type="text/javascript"></script>
         <script src="plugins/js/bootstrap.min.js" type="text/javascript"></script>
         <script src="plugins/js/jquery.blockui.min.js" type="text/javascript"></script>
@@ -72,6 +49,7 @@
         <script src="plugins/fileupload/jquery.fileupload.js" type="text/javascript"></script>
         <script src="plugins/js/jquery.form.js" type="text/javascript"></script>
         <script src="plugins/datatable/js/jquery.dataTables.min.js" type="text/javascript"></script>
+        <script src="//cdn.rawgit.com/ashl1/datatables-rowsgroup/v1.0.0/dataTables.rowsGroup.js"></script>
         <script src="plugins/datatable/js/dataTables.buttons.min.js" type="text/javascript"></script>
         <script src="plugins/datatable/js/buttons.flash.min.js" type="text/javascript"></script>
         <script src="plugins/datatable/js/jszip.min.js" type="text/javascript"></script>

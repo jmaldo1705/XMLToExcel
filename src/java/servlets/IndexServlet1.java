@@ -2,19 +2,14 @@ package servlets;
 
 import com.google.gson.Gson;
 import java.io.File;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-  
-import org.jdom2.Content;
+import java.util.Properties;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -29,7 +24,6 @@ public class IndexServlet1 extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        PrintWriter out = response.getWriter();
         String accion = request.getParameter("accion");
         try {
             if(accion == null)
@@ -57,6 +51,11 @@ public class IndexServlet1 extends HttpServlet {
                     variablesBureau(request, response);
                     break;
                 }
+                case 4:
+                {
+                    arboles(request, response);
+                    break;
+                }
                 case 999:
                 {
                     pruebas(request, response);
@@ -82,7 +81,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void tablas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Downloads\\viabilidades_vehiculo_XMLBody\\VIABILIDADES_VEHICULO\\Tablas\\Strategy Tables_11");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\credito_estudiante_XMLBody\\Tablas\\Strategy Tables_37");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -177,7 +176,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void variablesTenant(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\Davivienda\\scoring_sector_transporte_XMLBody\\Variables\\Tenant Extensions_106");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\credito_estudiante_XMLBody\\Variables\\Tenant Extensions_77");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -212,13 +211,24 @@ public class IndexServlet1 extends HttpServlet {
                 if(listaForm.get(i).getChildren().get(7).getChildren().size() > 0){
                     temp = "";
                     for(int j = 0; j < listaForm.get(i).getChildren().get(7).getChildren().size(); j++){
-                        temp += "<br />Display Name: <b>" + listaForm.get(i).getChildren().get(7).getChildren().get(j).getChildren().get(0).getChildren().get(0).getText() + 
-                                "</b> Value: <b>" + listaForm.get(i).getChildren().get(7).getChildren().get(j).getChildren().get(1).getChildren().get(0).getText() + "</b>";
+                        /*if(j > 0){
+                            temp +="<tr>";
+                        }*/
+                        /*temp += "<td rowspan='1'>Display Name: <b>" + listaForm.get(i).getChildren().get(7).getChildren().get(j).getChildren().get(0).getChildren().get(0).getText() + 
+                                "</b> Value: <b>" + listaForm.get(i).getChildren().get(7).getChildren().get(j).getChildren().get(1).getChildren().get(0).getText() + "</b></td>";*/
+                        temp += "Display Name: <b>" + listaForm.get(i).getChildren().get(7).getChildren().get(j).getChildren().get(0).getChildren().get(0).getText() + 
+                                "</b> Value: <b>" + listaForm.get(i).getChildren().get(7).getChildren().get(j).getChildren().get(1).getChildren().get(0).getText() + "</b>\r\n<br />";
+                        /*if(j > 0){
+                            temp +="</tr>";
+                        }*/
                     }
                     lista3.add(temp);
+                    //lista3.add(listaForm.get(i).getChildren().get(7).getChildren().size());
                 }
-                else
+                else{
                     lista3.add("");
+                    //lista3.add(1);
+                }
                 listaVariablesFormulario.add(lista3);
             }
             
@@ -235,7 +245,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void variablesBureau(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\Davivienda\\scoring_sector_transporte_XMLBody\\Variables\\Bureau Extensions_13");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\credito_estudiante_XMLBody\\Variables\\Bureau Extensions_18");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -249,9 +259,11 @@ public class IndexServlet1 extends HttpServlet {
             
             listaBureau = listaVariables.get(2).getChildren().get(2).getChildren();
             listaScore = listaVariables.get(2).getChildren().get(3).getChildren();
-            
+            Properties propiedades = new Properties();
+            propiedades.load( getClass().getResourceAsStream("caracteristicas.properties") );
             for(int i = 0; i < listaBureau.size(); i++){
                 lista3 = new ArrayList<>();
+                lista3.add(propiedades.getProperty(listaBureau.get(i).getChildren().get(5).getChildren().get(0).getText()));
                 lista3.add(listaBureau.get(i).getChildren().get(5).getChildren().get(0).getText());
                 lista3.add(listaBureau.get(i).getChildren().get(0).getChildren().get(0).getText());
                 lista3.add(listaBureau.get(i).getChildren().get(1).getChildren().get(0).getText());
@@ -260,6 +272,7 @@ public class IndexServlet1 extends HttpServlet {
             
             for(int i = 0; i < listaScore.size(); i++){
                 lista3 = new ArrayList<>();
+                lista3.add(propiedades.getProperty(listaScore.get(i).getChildren().get(5).getChildren().get(0).getText()));
                 lista3.add(listaScore.get(i).getChildren().get(5).getChildren().get(0).getText());
                 lista3.add(listaScore.get(i).getChildren().get(0).getChildren().get(0).getText());
                 lista3.add(listaScore.get(i).getChildren().get(1).getChildren().get(0).getText());
@@ -268,6 +281,82 @@ public class IndexServlet1 extends HttpServlet {
             listaReturn.add(listaVariablesEstrategia);
             listaReturn.add(listaScoresEstrategia);
             String json = new Gson().toJson(listaReturn);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+        } catch (IOException | JDOMException e) {
+            System.out.println("Error: " + e);
+        }
+    }
+    
+    private void arboles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        try {
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\credito_estudiante_XMLBody\\Arboles\\Strategy Trees_35");
+            SAXBuilder jdomBuilder = new SAXBuilder();
+            Document jdomDocument = jdomBuilder.build(file);
+            Element rss = jdomDocument.getRootElement();
+            List<Object> listaReturn = new ArrayList<>();
+            List<Element> listaPrincipal = rss.getChildren();
+            List<Element> listaArboles;
+            List<Object> listaVariablesEstrategia = new ArrayList<>();
+            List<Object> listaScoresEstrategia = new ArrayList<>();
+            List<Element> lista1;
+            
+            listaArboles = listaPrincipal.get(2).getChildren();
+            
+            for(int i = 0; i < listaArboles.size(); i++){
+                System.out.println("-----------------------------------------------------");
+                System.out.println("Título: " + listaArboles.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
+                lista1 = listaArboles.get(i).getChildren().get(0).getChildren().get(2).getChildren();
+                for(int j = 0; j < lista1.size(); j++){
+                    System.out.println(lista1.get(j).getChildren().get(5).getChildren().get(0).getText());
+                }
+            }
+            String prueba = "{\n" +
+                "    \"name\": \"Padre\",\n" +
+                "    \"children\": [{\n" +
+                "            \"name\": \"Hijo1\",\n" +
+                "            \"children\": [{\n" +
+                "                \"name\": \"1.1\",\n" +
+                "				\"children\": [{\n" +
+                "					\"name\": \"1.1.1\"\n" +
+                "				},{\n" +
+                "					\"name\": \"1.1.2\"\n" +
+                "				}]\n" +
+                "            }, {\n" +
+                "                \"name\": \"1.2\"\n" +
+                "            }, {\n" +
+                "                \"name\": \"1.3\"\n" +
+                "            }, {\n" +
+                "                \"name\": \"1.4\"\n" +
+                "            }, {\n" +
+                "                \"name\": \"1.5\"\n" +
+                "            }]\n" +
+                "	},{\n" +
+                "            \"name\": \"Hijo2\",\n" +
+                "            \"children\": [{\n" +
+                "                \"name\": \"2.1\"\n" +
+                "            }, {\n" +
+                "                \"name\": \"2.2\"\n" +
+                "            }, {\n" +
+                "                \"name\": \"2.3\",\n" +
+                "				\"children\": [{\n" +
+                "					\"name\": \"2.3.1\"\n" +
+                "				},{\n" +
+                "					\"name\": \"2.3.2\"\n" +
+                "				},{\n" +
+                "					\"name\": \"2.3.3\"\n" +
+                "				}]\n" +
+                "            }, {\n" +
+                "                \"name\": \"2.4\"\n" +
+                "            }, {\n" +
+                "                \"name\": \"2.5\"\n" +
+                "            }]\n" +
+                "	}]\n" +
+                "}";
+            listaReturn.add(listaVariablesEstrategia);
+            listaReturn.add(listaScoresEstrategia);
+            String json = new Gson().toJson(prueba);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
@@ -299,13 +388,42 @@ public class IndexServlet1 extends HttpServlet {
     }
     
     public void pruebas(HttpServletRequest request, HttpServletResponse response) throws IOException, JDOMException{
-        //File prueba = new File("C:\\Users\\jmaldonadoa\\Downloads\\pruebas_vaps_XMLBody1\\Funciones\\pom.xml");
-        Map<Object, Object> mapa = new LinkedHashMap<>();
-        for(int i = 0; i < 5; i++){
-            mapa.put("Prueba", i+" prueba");
-        }
-        for(Entry<Object, Object> a: mapa.entrySet()){
-            System.out.println("Key: " + a.getKey() + " value: " + a.getValue());
+        try {
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\credito_estudiante_XMLBody\\Arboles\\Strategy Trees_35");
+            SAXBuilder jdomBuilder = new SAXBuilder();
+            Document jdomDocument = jdomBuilder.build(file);
+            Element rss = jdomDocument.getRootElement();
+            List<Object> listaReturn = new ArrayList<>();
+            List<Element> listaPrincipal = rss.getChildren();
+            List<Element> lista1;
+            List<Element> lista2;
+            List<String> lista3;
+            List<Object> lista4 = new ArrayList<>();
+            List<Object> lista5 = new ArrayList<>();
+            
+            lista2 = listaPrincipal.get(2).getChildren();
+            
+            for(int i = 0; i < lista2.size(); i++){
+                System.out.println("-----------------------------------------------------");
+                lista4.add(lista2.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
+                System.out.println("Título: " + lista2.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
+                lista1 = lista2.get(i).getChildren().get(0).getChildren().get(2).getChildren();
+                lista3 = new ArrayList<>();
+                for(int j = 0; j < lista1.size(); j++){
+                    lista3.add(lista1.get(j).getChildren().get(5).getChildren().get(0).getText());
+                    System.out.println(lista1.get(j).getChildren().get(5).getChildren().get(0).getText());
+                }
+                lista4.add(lista3);
+                lista5.add(lista4);
+            }
+            
+            listaReturn.add(lista5);
+            String json = new Gson().toJson(listaReturn);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+        } catch (IOException | JDOMException e) {
+            System.out.println("Error: " + e);
         }
     }
     

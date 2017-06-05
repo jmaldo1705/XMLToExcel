@@ -15,6 +15,9 @@ function eventos(){
     $("#btnBureau").on("click", function(){
         variablesBureau();
     });
+    $("#btnArboles").on("click", function(){
+        arboles();
+    });
 }
 
 function cargaArchivos(){
@@ -139,6 +142,7 @@ function variablesBureau(){
             $("#divVariables").append("<h1>Variables bureau</h1>");
             a = "<table class='display nowrap datatable'>";
             a += "<thead><tr>\
+                    <th>Display</th>\
                     <th>Nombre de característica</th>\
                     <th>Grupo</th>\
                     <th>Subgrupo</th>\
@@ -154,6 +158,7 @@ function variablesBureau(){
             a += "<h1>Score bureau</h1>";
             a += "<table class='display nowrap datatable'>";
             a += "<thead><tr>\
+                    <th>Display</th>\
                     <th>Nombre de score</th>\
                     <th>Grupo</th>\
                     <th>Subgrupo</th>\
@@ -173,6 +178,21 @@ function variablesBureau(){
                     'copy', 'csv', 'excel', 'pdf', 'print'
                 ]
             });
+        },
+        error: function(d) {
+            alert("Error");
+        }
+    });
+}
+
+function arboles(){
+    $.ajax({
+        method: "POST",
+        url: "IndexServlet1",
+        data: {accion: 4, 
+               rutaXML: $("#rutaXML").val()},
+        dataType: "json",
+        success: function(d) {
         },
         error: function(d) {
             alert("Error");
