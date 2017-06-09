@@ -3,9 +3,6 @@ $(document).ready(function(){
 });
 
 function eventos(){
-    $("#btnSubmit").on("click", function(){
-        cargaArchivos();
-    });
     $("#btnTablas").on("click", function(){
         tablas();
     });
@@ -17,6 +14,9 @@ function eventos(){
     });
     $("#btnArboles").on("click", function(){
         arboles();
+    });
+    $("#btnFunciones").on("click", function(){
+        funciones();
     });
 }
 
@@ -35,6 +35,8 @@ function tablas(){
             var a;
             $("#divVariables").html("");
             $("#divTablas").html("");
+            $("#divArboles").html("");
+            $("#divFunciones").html("");
             $.each(d, function(index, item) {
                 $("#divTablas").append("<h1>" + item[0] + "</h1>");
                 a = "<table class='display nowrap datatable'>";
@@ -80,6 +82,8 @@ function variablesTenant(){
             var a;
             $("#divVariables").html("");
             $("#divTablas").html("");
+            $("#divArboles").html("");
+            $("#divFunciones").html("");
             $("#divVariables").append("<h1>Variables de la estrategia</h1>");
             a = "<table class='display nowrap datatable'>";
             a += "<thead><tr>\
@@ -139,6 +143,8 @@ function variablesBureau(){
             var a;
             $("#divVariables").html("");
             $("#divTablas").html("");
+            $("#divArboles").html("");
+            $("#divFunciones").html("");
             $("#divVariables").append("<h1>Variables bureau</h1>");
             a = "<table class='display nowrap datatable'>";
             a += "<thead><tr>\
@@ -193,6 +199,29 @@ function arboles(){
                rutaXML: $("#rutaXML").val()},
         dataType: "json",
         success: function(d) {
+            $("#divVariables").html("");
+            $("#divTablas").html("");
+            $("#divFunciones").html("");
+            $("#divArboles").html(d);
+        },
+        error: function(d) {
+            alert("Error");
+        }
+    });
+}
+
+function funciones(){
+    $.ajax({
+        method: "POST",
+        url: "IndexServlet1",
+        data: {accion: 5, 
+               rutaXML: $("#rutaXML").val()},
+        dataType: "json",
+        success: function(d) {
+            $("#divVariables").html("");
+            $("#divTablas").html("");
+            $("#divArboles").html("");
+            $("#divFunciones").html(d);
         },
         error: function(d) {
             alert("Error");

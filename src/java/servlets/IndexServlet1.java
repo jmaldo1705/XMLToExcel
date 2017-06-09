@@ -30,6 +30,7 @@ public class IndexServlet1 extends HttpServlet {
             {
                 accion = "0";
             }
+            
             switch(Integer.parseInt(accion)){
                 case 0:
                 {
@@ -56,13 +57,18 @@ public class IndexServlet1 extends HttpServlet {
                     arboles(request, response);
                     break;
                 }
+                case 5:
+                {
+                    funciones(request, response);
+                    break;
+                }
                 case 999:
                 {
                     pruebas(request, response);
                     break;
                 }
             }
-        } catch(Exception e){
+        } catch(IOException | NumberFormatException | ServletException | JDOMException e){
             System.out.println("Error: " + e);
         }
     }
@@ -73,7 +79,7 @@ public class IndexServlet1 extends HttpServlet {
             request.getRequestDispatcher("index.jsp").forward(request, response);
             //response.sendRedirect(paginaRedireccionar);
             
-        } catch (Exception e) {
+        } catch (IOException | ServletException e) {
             request.getSession().setAttribute("error", e.getMessage() == null ? "Se ha generado un objeto nulo" : e.getMessage());
             request.getRequestDispatcher("error.jsp").forward(request, response);
         }
@@ -295,68 +301,74 @@ public class IndexServlet1 extends HttpServlet {
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
-            List<Object> listaReturn = new ArrayList<>();
             List<Element> listaPrincipal = rss.getChildren();
             List<Element> listaArboles;
-            List<Object> listaVariablesEstrategia = new ArrayList<>();
-            List<Object> listaScoresEstrategia = new ArrayList<>();
             List<Element> lista1;
-            
+            String respuesta = "";
+            int hijos;
+            int totalHijos;
             listaArboles = listaPrincipal.get(2).getChildren();
-            
             for(int i = 0; i < listaArboles.size(); i++){
                 System.out.println("-----------------------------------------------------");
                 System.out.println("Título: " + listaArboles.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
+                respuesta += "<h1>" + listaArboles.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText() + "</h1>";
+                respuesta += "<ul>";
                 lista1 = listaArboles.get(i).getChildren().get(0).getChildren().get(2).getChildren();
+                hijos = 0;
                 for(int j = 0; j < lista1.size(); j++){
                     System.out.println(lista1.get(j).getChildren().get(5).getChildren().get(0).getText());
+                    if(lista1.get(j).getChildren().get(6).getChildren().get(0).getText().equals("Generic Condition")){
+                        System.out.println("Padre");
+                        if(lista1.get(j).getChildren().get(1).getChildren().get(0).getChildren().get(0).getText().equals("__ND_EmptyGroupKey")){
+                            System.out.println("Principal");
+                        }else if(lista1.get(j).getChildren().get(1).getChildren().get(0).getChildren().get(0).getText().equals("Condition_Node_Group1")){
+                            totalHijos = lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().size();
+                            System.out.println("Hijos: " + totalHijos);
+                        }
+                        respuesta += "<li><a href=\"#\">" + lista1.get(j).getChildren().get(5).getChildren().get(0).getText() + "</a>";
+                        if(j != 0){
+                            respuesta += "<ul>";
+                        }
+                    }
+                    else{
+                        System.out.println("Hijo");
+                        System.out.println("Padre: " + lista1.get(j).getChildren().get(4).getChildren().get(0).getText());
+                        if(hijos == 0){
+                            respuesta += "<ul>";
+                        }
+                        respuesta += "<li><a href=\"#\">" + lista1.get(j).getChildren().get(5).getChildren().get(0).getText() + "</a></li>";
+                        hijos++;
+                    }
                 }
+                respuesta += "</li></ul>";
             }
-            String prueba = "{\n" +
-                "    \"name\": \"Padre\",\n" +
-                "    \"children\": [{\n" +
-                "            \"name\": \"Hijo1\",\n" +
-                "            \"children\": [{\n" +
-                "                \"name\": \"1.1\",\n" +
-                "				\"children\": [{\n" +
-                "					\"name\": \"1.1.1\"\n" +
-                "				},{\n" +
-                "					\"name\": \"1.1.2\"\n" +
-                "				}]\n" +
-                "            }, {\n" +
-                "                \"name\": \"1.2\"\n" +
-                "            }, {\n" +
-                "                \"name\": \"1.3\"\n" +
-                "            }, {\n" +
-                "                \"name\": \"1.4\"\n" +
-                "            }, {\n" +
-                "                \"name\": \"1.5\"\n" +
-                "            }]\n" +
-                "	},{\n" +
-                "            \"name\": \"Hijo2\",\n" +
-                "            \"children\": [{\n" +
-                "                \"name\": \"2.1\"\n" +
-                "            }, {\n" +
-                "                \"name\": \"2.2\"\n" +
-                "            }, {\n" +
-                "                \"name\": \"2.3\",\n" +
-                "				\"children\": [{\n" +
-                "					\"name\": \"2.3.1\"\n" +
-                "				},{\n" +
-                "					\"name\": \"2.3.2\"\n" +
-                "				},{\n" +
-                "					\"name\": \"2.3.3\"\n" +
-                "				}]\n" +
-                "            }, {\n" +
-                "                \"name\": \"2.4\"\n" +
-                "            }, {\n" +
-                "                \"name\": \"2.5\"\n" +
-                "            }]\n" +
-                "	}]\n" +
-                "}";
-            listaReturn.add(listaVariablesEstrategia);
-            listaReturn.add(listaScoresEstrategia);
-            String json = new Gson().toJson(prueba);
+            
+            String json = new Gson().toJson(respuesta);
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+        } catch (IOException | JDOMException e) {
+            System.out.println("Error: " + e);
+        }
+    }
+    
+    private void funciones(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        try {
+            File file = new File("C:\\Users\\jmaldonadoa\\Downloads\\tdc_express_epik_XMLBody\\TDC_EXPRESS_EPIK\\Funciones\\Functions_4");
+            SAXBuilder jdomBuilder = new SAXBuilder();
+            Document jdomDocument = jdomBuilder.build(file);
+            Element rss = jdomDocument.getRootElement();
+            List<Element> listaPrincipal = rss.getChildren();
+            List<Element> listaFunciones;
+            listaFunciones = listaPrincipal.get(2).getChildren();
+            String respuesta = "";
+            
+            for(int i = 0; i < listaFunciones.size(); i++){
+                System.out.println(listaFunciones.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
+                respuesta += "<h1>" + listaFunciones.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText() + "</h1>";
+            }
+            
+            String json = new Gson().toJson(respuesta);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
