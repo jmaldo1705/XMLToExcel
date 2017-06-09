@@ -202,7 +202,7 @@ function arboles(){
             $("#divVariables").html("");
             $("#divTablas").html("");
             $("#divFunciones").html("");
-            $("#divArboles").html(d);
+            //$("#divArboles").html(d);
         },
         error: function(d) {
             alert("Error");

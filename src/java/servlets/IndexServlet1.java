@@ -304,46 +304,69 @@ public class IndexServlet1 extends HttpServlet {
             List<Element> listaPrincipal = rss.getChildren();
             List<Element> listaArboles;
             List<Element> lista1;
-            String respuesta = "";
+            List<Object> lista2;
+            List<Object> lista3 = new ArrayList<>();
+            Element padre;
+            String nodoPadre = "";
+            List<String> listaHijos = new ArrayList<>();
+            List<Object> listaReturn = new ArrayList<>();
+            //String respuesta = "";
+            
             int hijos;
-            int totalHijos;
             listaArboles = listaPrincipal.get(2).getChildren();
             for(int i = 0; i < listaArboles.size(); i++){
+                lista2 = new ArrayList<>();
                 System.out.println("-----------------------------------------------------");
                 System.out.println("Título: " + listaArboles.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
-                respuesta += "<h1>" + listaArboles.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText() + "</h1>";
-                respuesta += "<ul>";
+                lista2.add(listaArboles.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
+                //respuesta += "<h1>" + listaArboles.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText() + "</h1>";
+                //respuesta += "<ul>";
                 lista1 = listaArboles.get(i).getChildren().get(0).getChildren().get(2).getChildren();
                 hijos = 0;
-                for(int j = 0; j < lista1.size(); j++){
+                for(int j = 0; j <= lista1.size(); j++){
+                    if(lista1.size() == j){
+                        lista3.add(listaHijos);
+                        lista2.add(lista3);
+                        break;
+                    }
                     System.out.println(lista1.get(j).getChildren().get(5).getChildren().get(0).getText());
                     if(lista1.get(j).getChildren().get(6).getChildren().get(0).getText().equals("Generic Condition")){
+                        if(j > 0){
+                            lista3.add(listaHijos);
+                            lista2.add(lista3);
+                        }
+                        lista3 = new ArrayList<>();
                         System.out.println("Padre");
+                        padre = lista1.get(j).getChildren().get(5).getChildren().get(0);
+                        lista3.add(padre.getText());
                         if(lista1.get(j).getChildren().get(1).getChildren().get(0).getChildren().get(0).getText().equals("__ND_EmptyGroupKey")){
                             System.out.println("Principal");
-                        }else if(lista1.get(j).getChildren().get(1).getChildren().get(0).getChildren().get(0).getText().equals("Condition_Node_Group1")){
-                            totalHijos = lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().size();
-                            System.out.println("Hijos: " + totalHijos);
                         }
-                        respuesta += "<li><a href=\"#\">" + lista1.get(j).getChildren().get(5).getChildren().get(0).getText() + "</a>";
+                        nodoPadre = lista1.get(j).getChildren().get(3).getChildren().get(0).getText();
+                        //respuesta += "<li><a href=\"#\">" + lista1.get(j).getChildren().get(5).getChildren().get(0).getText() + "</a>";
                         if(j != 0){
-                            respuesta += "<ul>";
+                            //respuesta += "<ul>";
                         }
+                        listaHijos = new ArrayList<>();
                     }
                     else{
-                        System.out.println("Hijo");
-                        System.out.println("Padre: " + lista1.get(j).getChildren().get(4).getChildren().get(0).getText());
-                        if(hijos == 0){
-                            respuesta += "<ul>";
+                        if(lista1.get(j).getChildren().get(4).getChildren().get(0).getText().equals(nodoPadre)){
+                            listaHijos.add(lista1.get(j).getChildren().get(5).getChildren().get(0).getText());
                         }
-                        respuesta += "<li><a href=\"#\">" + lista1.get(j).getChildren().get(5).getChildren().get(0).getText() + "</a></li>";
+                        //System.out.println("Hijo");
+                        //System.out.println("Padre: " + lista1.get(j).getChildren().get(4).getChildren().get(0).getText());
+                        if(hijos == 0){
+                            //respuesta += "<ul>";
+                        }
+                        //respuesta += "<li><a href=\"#\">" + lista1.get(j).getChildren().get(5).getChildren().get(0).getText() + "</a></li>";
                         hijos++;
                     }
                 }
-                respuesta += "</li></ul>";
+                //respuesta += "</li></ul>";
+                listaReturn.add(lista2);
             }
             
-            String json = new Gson().toJson(respuesta);
+            String json = new Gson().toJson(listaReturn);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
