@@ -41,10 +41,10 @@ function tablas(){
                 $("#divTablas").append("<h1>" + item[0] + "</h1>");
                 a = "<table class='display nowrap datatable'>";
                 a += "<thead><tr>";
-                for (i = 0; i < item[2]; i++) { 
+                for (i = 0; i < item[2]; i++) {
                     a += "<th>If</th>";
                 }
-                for (i = 0; i < item[3]; i++) { 
+                for (i = 0; i < item[3]; i++) {
                     a += "<th>Then</th>";
                 }
                 a += "</tr></thead><tbody>";
@@ -202,7 +202,44 @@ function arboles(){
             $("#divVariables").html("");
             $("#divTablas").html("");
             $("#divFunciones").html("");
-            //$("#divArboles").html(d);
+            $("#divArboles").html("");
+            var padre1;
+            var padre2;
+            $.each(d, function(index, item){
+                //$("#divArboles").append("<h1>" + item[0] + "</h1>");
+                $("#divArboles").append(item[0]);
+                $("#divArboles").append("<ul></ul>");
+                    $("#divArboles").children().eq(index).append("<li></li>");
+                    $.each(item, function(index1, item1){
+                        if(item[index1][1] === "true"){
+                            $("#divArboles").children().eq(index).children().eq(0).append("<a href='#'>" + item[index1][2] + "</a>");
+                            $("#divArboles").children().eq(index).children().eq(0).append("<ul></ul>");
+                            $.each(item[index1][3], function(index2, item2){
+                                $("#divArboles").children().eq(index).children().eq(0).children().eq(1).append("<li><a href='#'>" + item2 + "</a></li>");
+                            });
+                            padre1 = item[index1][0];
+                        }else{
+                            if(item[index1][1] === padre1){
+                                $("#divArboles").children().eq(index).children().eq(0).children().eq(1).append("<li class='hijo1'></li>");
+                                $("#divArboles").children().eq(index).children().eq(0).children().find('li.hijo1').append("<a href='#'>" + item[index1][2] + "</a>");
+                                $("#divArboles").children().eq(index).children().eq(0).children().find('li.hijo1').append("<ul></ul>");
+                                $.each(item[index1][3], function(index2, item2){
+                                    $("#divArboles").children().eq(index).children().eq(0).children().find('li.hijo1').children().eq(1).append("<li><a href='#'>" + item2 + "</a></li>");
+                                });
+                                padre2 = item[index1][0];
+                            }else{
+                                if(item[index1][1] === padre2){
+                                    $("#divArboles").children().eq(index).children().eq(0).children().find('li.hijo1').children().eq(1).append("<li class='hijo2'></li>");
+                                    $("#divArboles").children().eq(index).children().eq(0).children().find('li.hijo1').find('li.hijo2').append("<a href='#'>" + item[index1][2] + "</a>");
+                                    $("#divArboles").children().eq(index).children().eq(0).children().find('li.hijo1').find('li.hijo2').append("<ul></ul>");
+                                    $.each(item[index1][3], function(index2, item2){
+                                        $("#divArboles").children().eq(index).children().eq(0).children().find('li.hijo1').find('li.hijo2').children().eq(1).append("<li><a href='#'>" + item2 + "</a></li>");
+                                    });
+                                }
+                            }
+                        }
+                    });
+            });
         },
         error: function(d) {
             alert("Error");

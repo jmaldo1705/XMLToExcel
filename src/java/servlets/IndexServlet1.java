@@ -87,7 +87,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void tablas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\credito_estudiante_XMLBody\\Tablas\\Strategy Tables_37");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Tablas\\Strategy Tables_22");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -182,7 +182,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void variablesTenant(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\credito_estudiante_XMLBody\\Variables\\Tenant Extensions_77");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Variables\\Tenant Extensions_55");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -251,7 +251,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void variablesBureau(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\credito_estudiante_XMLBody\\Variables\\Bureau Extensions_18");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Variables\\Bureau Extensions_20");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -337,6 +337,8 @@ public class IndexServlet1 extends HttpServlet {
                         }
                         lista3 = new ArrayList<>();
                         System.out.println("Padre");
+                        lista3.add(lista1.get(j).getChildren().get(3).getChildren().get(0).getText());
+                        lista3.add(lista1.get(j).getChildren().get(4).getChildren().get(0).getText());
                         padre = lista1.get(j).getChildren().get(5).getChildren().get(0);
                         lista3.add(padre.getText());
                         if(lista1.get(j).getChildren().get(1).getChildren().get(0).getChildren().get(0).getText().equals("__ND_EmptyGroupKey")){

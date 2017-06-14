@@ -16,6 +16,7 @@
         <br />
         <input class="form-control" id="rutaXML" type="text">
         <br />
+        <button type="button" class="btn btn-primary" data-toggle="modal" id="btnFlujos">Flujos</button>
         <button type="button" class="btn btn-primary" data-toggle="modal" id="btnBureau">Variables Bureau</button>
         <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTenant">Variables Tenant</button>
         <button type="button" class="btn btn-primary" data-toggle="modal" id="btnTablas">Tablas</button>
@@ -23,7 +24,7 @@
         <button type="button" class="btn btn-primary" data-toggle="modal" id="btnFunciones">Funciones</button>
         <br /><br /><br />
         <div id="divFunciones"></div>
-        <div class="container" id="divArboles"></div>
+        <div id="divArboles"></div>
         <div id="divVariables"></div>
         <div id="divTablas"></div>
         <div class="modal fade" id="modalSubmit" tabindex="-1" role="dialog">
