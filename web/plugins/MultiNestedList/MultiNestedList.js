@@ -1,4 +1,5 @@
 // Select the main list and add the class "hasSubmenu" in each LI that contains an UL
+function iniciaArboles(){
 $('ul').each(function(){
   $this = $(this);
   $this.find("li").has("ul").addClass("hasSubmenu");
@@ -44,3 +45,4 @@ $('ul li.hasSubmenu a.toogle').click(function(){
   $this.children("i").toggle();
   return false;
 });
+}

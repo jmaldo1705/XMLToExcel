@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.function.Function;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -182,7 +183,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void variablesTenant(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Variables\\Tenant Extensions_55");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\Variables\\preselecta_pricesmart_XMLBody\\Variables\\Tenant Extensions_5");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -297,7 +298,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void arboles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\credito_estudiante_XMLBody\\Arboles\\Strategy Trees_35");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Arboles\\Strategy Trees_15");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -306,65 +307,121 @@ public class IndexServlet1 extends HttpServlet {
             List<Element> lista1;
             List<Object> lista2;
             List<Object> lista3 = new ArrayList<>();
-            Element padre;
             String nodoPadre = "";
             List<String> listaHijos = new ArrayList<>();
             List<Object> listaReturn = new ArrayList<>();
-            //String respuesta = "";
+            String temp;
             
-            int hijos;
             listaArboles = listaPrincipal.get(2).getChildren();
             for(int i = 0; i < listaArboles.size(); i++){
                 lista2 = new ArrayList<>();
-                System.out.println("-----------------------------------------------------");
-                System.out.println("Título: " + listaArboles.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
                 lista2.add(listaArboles.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
-                //respuesta += "<h1>" + listaArboles.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText() + "</h1>";
-                //respuesta += "<ul>";
                 lista1 = listaArboles.get(i).getChildren().get(0).getChildren().get(2).getChildren();
-                hijos = 0;
                 for(int j = 0; j <= lista1.size(); j++){
                     if(lista1.size() == j){
                         lista3.add(listaHijos);
                         lista2.add(lista3);
                         break;
                     }
-                    System.out.println(lista1.get(j).getChildren().get(5).getChildren().get(0).getText());
                     if(lista1.get(j).getChildren().get(6).getChildren().get(0).getText().equals("Generic Condition")){
                         if(j > 0){
                             lista3.add(listaHijos);
                             lista2.add(lista3);
                         }
                         lista3 = new ArrayList<>();
-                        System.out.println("Padre");
                         lista3.add(lista1.get(j).getChildren().get(3).getChildren().get(0).getText());
                         lista3.add(lista1.get(j).getChildren().get(4).getChildren().get(0).getText());
-                        padre = lista1.get(j).getChildren().get(5).getChildren().get(0);
-                        lista3.add(padre.getText());
-                        if(lista1.get(j).getChildren().get(1).getChildren().get(0).getChildren().get(0).getText().equals("__ND_EmptyGroupKey")){
-                            System.out.println("Principal");
+                        switch (lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().size()) {
+                            case 4:
+                                if(lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(3).getChildren().get(0).getText().equals("is equal to") || lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(3).getChildren().get(0).getText().equals("is not equal to")){
+                                    temp = "<b>" + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText()
+                                            + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(3).getChildren().get(0).getText()
+                                            + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText()
+                                            + "</b> " + (lista1.get(j).getChildren().get(7).getChildren().get(0).getText().equals("") ? "Generic Condition" : lista1.get(j).getChildren().get(7).getChildren().get(0).getText());
+                                    for(int k = 0; k < lista1.get(j).getChildren().get(2).getChildren().size(); k++){
+                                        temp += " <b>(</b> " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText() + " = " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText() + "<b>)</b>";
+                                    }
+                                    lista3.add(temp);
+                                }else{
+                                    temp = "<b>" + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText()
+                                            + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText()
+                                            + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(3).getChildren().get(0).getText()
+                                            + "</b> " + (lista1.get(j).getChildren().get(7).getChildren().get(0).getText().equals("") ? "Generic Condition" : lista1.get(j).getChildren().get(7).getChildren().get(0).getText());
+                                    for(int k = 0; k < lista1.get(j).getChildren().get(2).getChildren().size(); k++){
+                                        temp += " <b>(</b> " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText() + " = " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText() + "<b>)</b>";
+                                    }
+                                    lista3.add(temp);
+                                }
+                                break;
+                            case 6:
+                                temp = "<b>" + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(4).getChildren().get(0).getText()
+                                        + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText()
+                                        + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText()
+                                        + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(3).getChildren().get(0).getText()
+                                        + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(5).getChildren().get(0).getText()
+                                        + "</b> " + (lista1.get(j).getChildren().get(7).getChildren().get(0).getText().equals("") ? "Generic Condition" : lista1.get(j).getChildren().get(7).getChildren().get(0).getText());
+                                for(int k = 0; k < lista1.get(j).getChildren().get(2).getChildren().size(); k++){
+                                    temp += " <b>(</b> " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText() + " = " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText() + "<b>)</b>";
+                                }
+                                lista3.add(temp);
+                                break;
+                            default:
+                                temp = (j > 0 ? "<b>Otherwise</b> " : "") + (lista1.get(j).getChildren().get(7).getChildren().get(0).getText().equals("") ? "Generic Condition" : lista1.get(j).getChildren().get(7).getChildren().get(0).getText());
+                                for(int k = 0; k < lista1.get(j).getChildren().get(2).getChildren().size(); k++){
+                                    temp += " <b>(</b> " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(0) + " = " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(2).getText() + "<b>)</b>";
+                                }
+                                lista3.add(temp);
+                                break;
                         }
                         nodoPadre = lista1.get(j).getChildren().get(3).getChildren().get(0).getText();
-                        //respuesta += "<li><a href=\"#\">" + lista1.get(j).getChildren().get(5).getChildren().get(0).getText() + "</a>";
-                        if(j != 0){
-                            //respuesta += "<ul>";
-                        }
                         listaHijos = new ArrayList<>();
                     }
-                    else{
-                        if(lista1.get(j).getChildren().get(4).getChildren().get(0).getText().equals(nodoPadre)){
-                            listaHijos.add(lista1.get(j).getChildren().get(5).getChildren().get(0).getText());
+                    else if(lista1.get(j).getChildren().get(4).getChildren().get(0).getText().equals(nodoPadre)){
+                        switch (lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().size()) {
+                            case 4:
+                                if(lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(3).getChildren().get(0).getText().equals("is equal to") || lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(3).getChildren().get(0).getText().equals("is not equal to")){
+                                    temp = "<b>" + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText()
+                                            + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(3).getChildren().get(0).getText()
+                                            + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText()
+                                            + "</b> " + (lista1.get(j).getChildren().get(7).getChildren().get(0).getText().equals("") ? "Generic Condition" : lista1.get(j).getChildren().get(7).getChildren().get(0).getText());
+                                    for(int k = 0; k < lista1.get(j).getChildren().get(2).getChildren().size(); k++){
+                                        temp += " <b>(</b> " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText() + " = " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText() + "<b>)</b>";
+                                    }
+                                    listaHijos.add(temp);
+                                }else{
+                                    temp = "<b>" + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText()
+                                            + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText()
+                                            + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(3).getChildren().get(0).getText()
+                                            + "</b> " + (lista1.get(j).getChildren().get(7).getChildren().get(0).getText().equals("") ? "Generic Condition" : lista1.get(j).getChildren().get(7).getChildren().get(0).getText());
+                                    for(int k = 0; k < lista1.get(j).getChildren().get(2).getChildren().size(); k++){
+                                        temp += " <b>(</b> " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText() + " = " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText() + "<b>)</b>";
+                                    }
+                                    listaHijos.add(temp);
+                                }
+                                break;
+                            case 6:
+                                temp = "<b>" + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(4).getChildren().get(0).getText()
+                                        + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText()
+                                        + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText()
+                                        + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(3).getChildren().get(0).getText()
+                                        + " " + lista1.get(j).getChildren().get(1).getChildren().get(1).getChildren().get(0).getChildren().get(5).getChildren().get(0).getText()
+                                        + "</b> " + (lista1.get(j).getChildren().get(7).getChildren().get(0).getText().equals("") ? "Generic Condition" : lista1.get(j).getChildren().get(7).getChildren().get(0).getText());
+                                for(int k = 0; k < lista1.get(j).getChildren().get(2).getChildren().size(); k++){
+                                    temp += " <b>(</b> " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText() + " = " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText() + "<b>)</b>";
+                                }
+                                listaHijos.add(temp);
+                                        
+                                break;
+                            default:
+                                temp = "<b>Otherwise</b> " + lista1.get(j).getChildren().get(7).getChildren().get(0).getText();
+                                for(int k = 0; k < lista1.get(j).getChildren().get(2).getChildren().size(); k++){
+                                    temp += " <b>(</b> " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText() + " = " + lista1.get(j).getChildren().get(2).getChildren().get(k).getChildren().get(1).getChildren().get(0).getChildren().get(2).getChildren().get(0).getText() + "<b>)</b>";
+                                }
+                                listaHijos.add(temp);
+                                break;
                         }
-                        //System.out.println("Hijo");
-                        //System.out.println("Padre: " + lista1.get(j).getChildren().get(4).getChildren().get(0).getText());
-                        if(hijos == 0){
-                            //respuesta += "<ul>";
-                        }
-                        //respuesta += "<li><a href=\"#\">" + lista1.get(j).getChildren().get(5).getChildren().get(0).getText() + "</a></li>";
-                        hijos++;
                     }
                 }
-                //respuesta += "</li></ul>";
                 listaReturn.add(lista2);
             }
             
@@ -379,21 +436,55 @@ public class IndexServlet1 extends HttpServlet {
     
     private void funciones(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Downloads\\tdc_express_epik_XMLBody\\TDC_EXPRESS_EPIK\\Funciones\\Functions_4");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Funciones\\Functions_85");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
             List<Element> listaPrincipal = rss.getChildren();
-            List<Element> listaFunciones;
-            listaFunciones = listaPrincipal.get(2).getChildren();
-            String respuesta = "";
+            List<Element> listaFuncionesTemp;
+            listaFuncionesTemp = listaPrincipal.get(2).getChildren();
             
-            for(int i = 0; i < listaFunciones.size(); i++){
-                System.out.println(listaFunciones.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
-                respuesta += "<h1>" + listaFunciones.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText() + "</h1>";
+            List<Object> listaFunciones;
+            List<Object> listaReturn = new ArrayList<>();
+            List<Object> listaElementos;
+            List<Object> variablesLocales;
+            List<Object> elementosInternos;
+            
+            for(Element funciones: listaFuncionesTemp){
+                listaFunciones = new ArrayList<>();
+                variablesLocales = new ArrayList<>();
+                listaFunciones.add(funciones.getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
+                System.out.println(funciones.getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
+                //Variables locales
+                for (Element children : funciones.getChildren().get(0).getChildren().get(3).getChildren()) {
+                    listaElementos = new ArrayList<>();
+                    listaElementos.add(children.getChildren().get(0).getChildren().get(0).getText());
+                    listaElementos.add(children.getChildren().get(1).getChildren().get(0).getText());
+                    listaElementos.add(children.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText());
+                    variablesLocales.add(listaElementos);
+                }
+                //Todo lo demás
+                for (Element children : funciones.getChildren().get(0).getChildren().get(4).getChildren()) {
+                    switch (children.getAttributeValue("template")) {
+                        case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template33":
+                            System.out.println("Llamar la función: "+children.getChildren().get(0).getChildren().get(0).getText());
+                            break;
+                        case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template42":
+                            System.out.println(children.getChildren().get(0).getChildren().get(0).getText() + " is equal to " + children.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText());
+                            break;
+                        case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template25":
+                            System.out.println(children.getChildren().get(0).getChildren().get(0).getText() + " is equal to " + children.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText());
+                            break;
+                        default:
+                            break;
+                    }
+                }
+                listaFunciones.add(variablesLocales);
+                listaReturn.add(listaFunciones);
+                //System.out.println("----------");
             }
             
-            String json = new Gson().toJson(respuesta);
+            String json = new Gson().toJson(listaReturn);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
@@ -426,40 +517,17 @@ public class IndexServlet1 extends HttpServlet {
     
     public void pruebas(HttpServletRequest request, HttpServletResponse response) throws IOException, JDOMException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\credito_estudiante_XMLBody\\Arboles\\Strategy Trees_35");
-            SAXBuilder jdomBuilder = new SAXBuilder();
-            Document jdomDocument = jdomBuilder.build(file);
-            Element rss = jdomDocument.getRootElement();
-            List<Object> listaReturn = new ArrayList<>();
-            List<Element> listaPrincipal = rss.getChildren();
-            List<Element> lista1;
-            List<Element> lista2;
-            List<String> lista3;
-            List<Object> lista4 = new ArrayList<>();
-            List<Object> lista5 = new ArrayList<>();
+            Function<Integer,Integer> add1 = x -> x + 1;
+            Function<String,String> concat = x -> x + 1;
             
-            lista2 = listaPrincipal.get(2).getChildren();
+            Integer two = add1.apply(1);
+            String answer = concat.apply("0 + 1 = ");
             
-            for(int i = 0; i < lista2.size(); i++){
-                System.out.println("-----------------------------------------------------");
-                lista4.add(lista2.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
-                System.out.println("Título: " + lista2.get(i).getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
-                lista1 = lista2.get(i).getChildren().get(0).getChildren().get(2).getChildren();
-                lista3 = new ArrayList<>();
-                for(int j = 0; j < lista1.size(); j++){
-                    lista3.add(lista1.get(j).getChildren().get(5).getChildren().get(0).getText());
-                    System.out.println(lista1.get(j).getChildren().get(5).getChildren().get(0).getText());
-                }
-                lista4.add(lista3);
-                lista5.add(lista4);
-            }
-            
-            listaReturn.add(lista5);
-            String json = new Gson().toJson(listaReturn);
+            String json = new Gson().toJson("Int: " + two + "\nAns: " + answer);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
-        } catch (IOException | JDOMException e) {
+        } catch (IOException e) {
             System.out.println("Error: " + e);
         }
     }

@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import json.Archivos;
 import org.apache.commons.io.FileUtils;
 
 public class ArchivosServlet extends HttpServlet {
@@ -68,12 +69,12 @@ public class ArchivosServlet extends HttpServlet {
             ruta = new File(".").getCanonicalPath();
         }
         List<String> archivo;
-        /*List<Archivos> lista = new ArrayList<Archivos>();
+        List<Archivos> lista = new ArrayList<>();
         File folder = new File(ruta);
         Archivos archivos;
         for (final File fileEntry : folder.listFiles()) {
             archivos = new Archivos();
-            archivo = new ArrayList<String>();
+            archivo = new ArrayList<>();
             if (fileEntry.isDirectory()) {
                 archivo.add("<img src=\"img/carpeta.png\" width=\"25px\" />");
                 archivo.add(fileEntry.getName());
@@ -92,7 +93,7 @@ public class ArchivosServlet extends HttpServlet {
         String json = new Gson().toJson(lista);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(json);*/
+        response.getWriter().write(json);
     }
     
     private void eliminaArchivo(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
