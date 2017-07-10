@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.function.Function;
 import org.jdom2.Document;
 import org.jdom2.Element;
 import org.jdom2.JDOMException;
@@ -448,11 +447,13 @@ public class IndexServlet1 extends HttpServlet {
             List<Object> listaReturn = new ArrayList<>();
             List<Object> listaElementos;
             List<Object> variablesLocales;
-            List<Object> elementosInternos;
+            List<Object> listaObjetos;
+            String respuestaOperaciones;
             
             for(Element funciones: listaFuncionesTemp){
                 listaFunciones = new ArrayList<>();
                 variablesLocales = new ArrayList<>();
+                listaObjetos = new ArrayList<>();
                 listaFunciones.add(funciones.getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
                 System.out.println(funciones.getChildren().get(0).getChildren().get(1).getChildren().get(0).getText());
                 //Variables locales
@@ -465,21 +466,26 @@ public class IndexServlet1 extends HttpServlet {
                 }
                 //Todo lo demás
                 for (Element children : funciones.getChildren().get(0).getChildren().get(4).getChildren()) {
+                    listaElementos = new ArrayList<>();
                     switch (children.getAttributeValue("template")) {
                         case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template33":
-                            System.out.println("Llamar la función: "+children.getChildren().get(0).getChildren().get(0).getText());
+                            listaElementos.add("Llamar la función: " + children.getChildren().get(0).getChildren().get(0).getText());
                             break;
                         case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template42":
-                            System.out.println(children.getChildren().get(0).getChildren().get(0).getText() + " is equal to " + children.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText());
+                            listaElementos.add(children.getChildren().get(0).getChildren().get(0).getText() + " is equal to " + children.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText());
                             break;
                         case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template25":
-                            System.out.println(children.getChildren().get(0).getChildren().get(0).getText() + " is equal to " + children.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText());
+                            respuestaOperaciones = children.getChildren().get(0).getChildren().get(0).getText() + " is equal to ";
+                            respuestaOperaciones += recursivoOperaciones(children.getChildren().get(2).getChildren().get(0), "");
+                            listaElementos.add(respuestaOperaciones);
                             break;
                         default:
                             break;
                     }
+                    listaObjetos.add(listaElementos);
                 }
                 listaFunciones.add(variablesLocales);
+                listaFunciones.add(listaObjetos);
                 listaReturn.add(listaFunciones);
                 //System.out.println("----------");
             }
@@ -493,6 +499,32 @@ public class IndexServlet1 extends HttpServlet {
         }
     }
     
+    /**
+     * Función recursiva para las operaciones matemáticas de las funciones del XML
+     * @param element Recibe la etiqueta XML con el cual va a realizar su recursividad de sus hijos
+     * @param mensaje Parámetro de String el cual se reutiliza para armar la respuesta
+     * @return String con la respuesta concatenada
+     */
+    private String recursivoOperaciones(Element element, String mensaje){
+        mensaje += element.getChildren().get(0).getChildren().get(0).getText();
+        if(element.getChildren().get(3).getChildren().get(0).getChildren().size() >= 3){
+            if(element.getChildren().get(2).getChildren().get(0).getAttributeValue("template").equals("VTYokcf3R2g1avLUZdOfrF0ZHGX.PlusTemplate")){
+                mensaje += " + ";
+            }else if(element.getChildren().get(2).getChildren().get(0).getAttributeValue("template").equals("VTYokcf3R2g1avLUZdOfrF0ZHGX.EmptyTemplate")){
+                return mensaje;
+            }
+            return recursivoOperaciones(element.getChildren().get(3).getChildren().get(0), mensaje);
+        }else{
+            return mensaje;
+        }
+    }
+    
+    /**
+     * Función utilizada para el detalle de los then en las tablas
+     * @param element recibe un elemento para poder leer los hijos
+     * @param respuesta String inicial el cual se concatena con la respuesta
+     * @return String concatenado con la respuesta
+     */
     private String DetalleThen(Element element, String respuesta){
         try{
             if(element.getChildren().size() == 6){
@@ -515,20 +547,37 @@ public class IndexServlet1 extends HttpServlet {
         return respuesta;
     }
     
+    /**
+     * Función para realizar pruebas, para acceder a ella poner como parámetro accion=999 por get
+     * @param request Posible petición desde el cliente
+     * @param response Posible respuesta al cliente
+     * @throws IOException Excepción para indicar si se interrumpe la operación por conexión
+     * @throws JDOMException Excepción de la respuesta JSON
+     */
     public void pruebas(HttpServletRequest request, HttpServletResponse response) throws IOException, JDOMException{
         try {
-            Function<Integer,Integer> add1 = x -> x + 1;
-            Function<String,String> concat = x -> x + 1;
+            String json = recursivaPrueba("");
             
-            Integer two = add1.apply(1);
-            String answer = concat.apply("0 + 1 = ");
-            
-            String json = new Gson().toJson("Int: " + two + "\nAns: " + answer);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
         } catch (IOException e) {
             System.out.println("Error: " + e);
+        }
+    }
+    
+    /**
+     * Función para hacer pruebas de recursividad
+     * @param a String de entrada vara validar funcionalidad
+     * @return Retorna su mismo parámetro concatenado con más valores hasta que cumpla la condición
+     */
+    public String recursivaPrueba(String a){
+        if(a.equals("111111")){
+            return a;
+        }
+        else{
+            a += "1";
+            return recursivaPrueba(a);
         }
     }
     

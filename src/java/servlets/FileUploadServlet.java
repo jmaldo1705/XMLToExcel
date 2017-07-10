@@ -16,7 +16,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.stream.StreamResult;
 
@@ -43,13 +42,8 @@ public class FileUploadServlet extends HttpServlet {
             System.out.println("XML IN String format is: \n" + writer.toString());
             
             response.setContentType("application/json");
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(FileUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TransformerConfigurationException ex) {
-            Logger.getLogger(FileUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (TransformerException ex) {
+        } catch (ParserConfigurationException | TransformerConfigurationException ex) {
             Logger.getLogger(FileUploadServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
     }
 }
