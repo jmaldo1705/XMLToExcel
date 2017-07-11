@@ -435,7 +435,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void funciones(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Funciones\\Functions_85");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Funciones\\Conteo_Mora_Afecha.xml");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -469,14 +469,18 @@ public class IndexServlet1 extends HttpServlet {
                     listaElementos = new ArrayList<>();
                     switch (children.getAttributeValue("template")) {
                         case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template33":
+                            listaElementos.add("llamado");
                             listaElementos.add("Llamar la función: " + children.getChildren().get(0).getChildren().get(0).getText());
                             break;
                         case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template42":
+                            listaElementos.add("asignacion");
                             listaElementos.add(children.getChildren().get(0).getChildren().get(0).getText() + " is equal to " + children.getChildren().get(2).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText());
                             break;
                         case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template25":
+                            listaElementos.add("operacion");
                             respuestaOperaciones = children.getChildren().get(0).getChildren().get(0).getText() + " is equal to ";
-                            respuestaOperaciones += recursivoOperaciones(children.getChildren().get(2).getChildren().get(0), "");
+                            
+                            respuestaOperaciones += recursivaOperaciones(children.getChildren().get(2).getChildren().get(0), "");
                             listaElementos.add(respuestaOperaciones);
                             break;
                         default:
@@ -501,21 +505,28 @@ public class IndexServlet1 extends HttpServlet {
     
     /**
      * Función recursiva para las operaciones matemáticas de las funciones del XML
-     * @param element Recibe la etiqueta XML con el cual va a realizar su recursividad de sus hijos
+     * @param element Recibe la etiqueta del XML con el cual va a realizar la recursividad de sus hijos
      * @param mensaje Parámetro de String el cual se reutiliza para armar la respuesta
      * @return String con la respuesta concatenada
      */
-    private String recursivoOperaciones(Element element, String mensaje){
-        mensaje += element.getChildren().get(0).getChildren().get(0).getText();
-        if(element.getChildren().get(3).getChildren().get(0).getChildren().size() >= 3){
-            if(element.getChildren().get(2).getChildren().get(0).getAttributeValue("template").equals("VTYokcf3R2g1avLUZdOfrF0ZHGX.PlusTemplate")){
-                mensaje += " + ";
-            }else if(element.getChildren().get(2).getChildren().get(0).getAttributeValue("template").equals("VTYokcf3R2g1avLUZdOfrF0ZHGX.EmptyTemplate")){
+    private String recursivaOperaciones(Element element, String mensaje){
+        if(element.getAttributeValue("template").equals("6dD5jXcnVIFN6oZUzoHr2bzdjFa.template7")){
+            if(element.getChildren().get(3).getChildren().get(0).getChildren().size() >= 3){
+                
+            }
+            return mensaje;
+        }else{
+            mensaje += element.getChildren().get(0).getChildren().get(0).getText();
+            if(element.getChildren().get(3).getChildren().get(0).getChildren().size() >= 3){
+                if(element.getChildren().get(2).getChildren().get(0).getAttributeValue("template").equals("VTYokcf3R2g1avLUZdOfrF0ZHGX.PlusTemplate")){
+                    mensaje += " + ";
+                }else if(element.getChildren().get(2).getChildren().get(0).getAttributeValue("template").equals("VTYokcf3R2g1avLUZdOfrF0ZHGX.EmptyTemplate")){
+                    return mensaje;
+                }
+                return recursivaOperaciones(element.getChildren().get(3).getChildren().get(0), mensaje);
+            }else{
                 return mensaje;
             }
-            return recursivoOperaciones(element.getChildren().get(3).getChildren().get(0), mensaje);
-        }else{
-            return mensaje;
         }
     }
     

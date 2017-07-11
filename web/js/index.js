@@ -510,10 +510,12 @@ function funciones(){
                     temp += "<td>" + itemj[2] + "</td>";
                     temp += "</tr>";
                 });
-                if(flag){
-                    temp += "</tbody></table>";
-                    $("#divFunciones").append(temp);
-                }
+                $("#divFunciones").append(temp);
+                temp = "";
+                $.each(itemi[2], function(j, itemj) {
+                    temp += "<br /><img src='img/check.png' alt='Check' height='20' width='20' />" + itemj[1];
+                });
+                $("#divFunciones").append(temp);
             });
             $('.datatable').DataTable({
                 dom: 'Bfrtip',
