@@ -87,7 +87,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void tablas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Tablas\\Strategy Tables_22");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\originacion_todomotos_XMLBody\\Tablas\\Strategy Tables_2");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -182,7 +182,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void variablesTenant(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\Variables\\preselecta_pricesmart_XMLBody\\Variables\\Tenant Extensions_5");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\prescomercial_crediflores_XMLBody\\Variables\\Tenant Extensions_45");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -251,7 +251,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void variablesBureau(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Variables\\Bureau Extensions_20");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\prescomercial_crediflores_XMLBody\\Variables\\Bureau Extensions_17");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -297,7 +297,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void arboles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Arboles\\Strategy Trees_15");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\prescomercial_crediflores_XMLBody\\Arboles\\Strategy Trees_9");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -435,7 +435,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void funciones(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Funciones\\Conteo_Mora_Afecha.xml");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\tdc_express_XMLBody\\Funciones\\Functions_85");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -478,8 +478,7 @@ public class IndexServlet1 extends HttpServlet {
                             break;
                         case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template25":
                             listaElementos.add("operacion");
-                            respuestaOperaciones = children.getChildren().get(0).getChildren().get(0).getText() + " is equal to ";
-                            
+                            respuestaOperaciones = children.getChildren().get(0).getChildren().get(0).getText() + " <b>is equal to</b> ";
                             respuestaOperaciones += recursivaOperaciones(children.getChildren().get(2).getChildren().get(0), "");
                             listaElementos.add(respuestaOperaciones);
                             break;
@@ -510,24 +509,77 @@ public class IndexServlet1 extends HttpServlet {
      * @return String con la respuesta concatenada
      */
     private String recursivaOperaciones(Element element, String mensaje){
-        if(element.getAttributeValue("template").equals("6dD5jXcnVIFN6oZUzoHr2bzdjFa.template7")){
-            if(element.getChildren().get(3).getChildren().get(0).getChildren().size() >= 3){
-                
-            }
-            return mensaje;
-        }else{
-            mensaje += element.getChildren().get(0).getChildren().get(0).getText();
-            if(element.getChildren().get(3).getChildren().get(0).getChildren().size() >= 3){
-                if(element.getChildren().get(2).getChildren().get(0).getAttributeValue("template").equals("VTYokcf3R2g1avLUZdOfrF0ZHGX.PlusTemplate")){
-                    mensaje += " + ";
-                }else if(element.getChildren().get(2).getChildren().get(0).getAttributeValue("template").equals("VTYokcf3R2g1avLUZdOfrF0ZHGX.EmptyTemplate")){
+        mensaje += element.getChildren().get(0).getChildren().get(0).getText();
+        switch (element.getAttributeValue("template")) {
+            case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template7":
+                if(element.getChildren().get(2).getChildren().get(0).getChildren().size() >= 3){
+                    switch (element.getChildren().get(3).getChildren().get(0).getAttributeValue("template")) {
+                        case "VTYokcf3R2g1avLUZdOfrF0ZHGX.PlusTemplate":
+                            mensaje += " <b>+</b> ";
+                            break;
+                        case "VTYokcf3R2g1avLUZdOfrF0ZHGX.MultiTemplate":
+                            mensaje += " <b>*</b> ";
+                            break;
+                        case "VTYokcf3R2g1avLUZdOfrF0ZHGX.EmptyTemplate":
+                            return mensaje;
+                        default:
+                            break;
+                    }
+                    return recursivaOperaciones(element.getChildren().get(2).getChildren().get(0), mensaje);
+                }
+                return mensaje;
+            case "VTYokcf3R2g1avLUZdOfrF0ZHGX.template3":
+                mensaje += "round( <b>" + element.getChildren().get(0).getChildren().get(0).getChildren().get(1).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText() + "</b> )";
+                return mensaje;
+            case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.RHS ObjectPropertyTemplate":
+                if(element.getChildren().get(3).getChildren().get(0).getChildren().size() >= 3){
+                    if(element.getChildren().get(2).getChildren().get(0).getAttributeValue("template").equals("VTYokcf3R2g1avLUZdOfrF0ZHGX.PlusTemplate")){
+                        mensaje += " <b>+</b> ";
+                    }else if(element.getChildren().get(2).getChildren().get(0).getAttributeValue("template").equals("VTYokcf3R2g1avLUZdOfrF0ZHGX.EmptyTemplate")){
+                        return mensaje;
+                    }
+                    return recursivaOperaciones(element.getChildren().get(3).getChildren().get(0), mensaje);
+                }else{
                     return mensaje;
                 }
-                return recursivaOperaciones(element.getChildren().get(3).getChildren().get(0), mensaje);
-            }else{
+            case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.Parentheses Template":
+                mensaje += "(" + element.getChildren().get(0).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText();
+                switch (element.getChildren().get(0).getChildren().get(0).getChildren().get(3).getChildren().get(0).getAttributeValue("template")) {
+                    case "VTYokcf3R2g1avLUZdOfrF0ZHGX.PlusTemplate":
+                        mensaje += " <b>+</b> ";
+                        break;
+                    case "VTYokcf3R2g1avLUZdOfrF0ZHGX.MultiTemplate":
+                        mensaje += " <b>*</b> ";
+                        break;
+                    case "VTYokcf3R2g1avLUZdOfrF0ZHGX.EmptyTemplate":
+                        return mensaje;
+                    default:
+                        mensaje += "Agregar función: " + element.getChildren().get(0).getChildren().get(0).getChildren().get(3).getChildren().get(0).getAttributeValue("template");
+                        break;
+                }
+                switch (element.getChildren().get(1).getChildren().get(0).getAttributeValue("template")) {
+                    case "VTYokcf3R2g1avLUZdOfrF0ZHGX.PlusTemplate":
+                        mensaje += " <b>+</b> ";
+                        break;
+                    case "VTYokcf3R2g1avLUZdOfrF0ZHGX.MultiTemplate":
+                        mensaje += " <b>*</b> ";
+                        break;
+                    case "VTYokcf3R2g1avLUZdOfrF0ZHGX.EmptyTemplate":
+                        return parentesisFunciones(element.getChildren().get(0).getChildren().get(0), mensaje);
+                    default:
+                        return mensaje;
+                }
+                return parentesisFunciones(element.getChildren().get(0).getChildren().get(0), mensaje) + 
+                       parentesisFunciones(element.getChildren().get(0).getChildren().get(0), mensaje);
+            default:
+                System.out.println("----"+element.getAttributeValue("template")+"----");
                 return mensaje;
-            }
         }
+    }
+    
+    private String parentesisFunciones(Element element, String mensaje){
+        String a = recursivaOperaciones(element.getChildren().get(2).getChildren().get(0), mensaje);
+        return a + ")";
     }
     
     /**
