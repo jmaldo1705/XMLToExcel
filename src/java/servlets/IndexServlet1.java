@@ -87,7 +87,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void tablas(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\originacion_todomotos_XMLBody\\Tablas\\Strategy Tables_2");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\decision_cp_plus_mas_XMLBody\\Tablas\\Strategy Tables_3");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -182,7 +182,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void variablesTenant(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\prescomercial_crediflores_XMLBody\\Variables\\Tenant Extensions_45");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\originacion_todomotos_XMLBody\\Variables\\Tenant Extensions_9");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -251,7 +251,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void variablesBureau(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\prescomercial_crediflores_XMLBody\\Variables\\Bureau Extensions_17");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\decisor_decision_cp_plus_mas_XMLBody\\Variables\\Bureau Extensions_2");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -297,7 +297,7 @@ public class IndexServlet1 extends HttpServlet {
     
     private void arboles(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
         try {
-            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\prescomercial_crediflores_XMLBody\\Arboles\\Strategy Trees_9");
+            File file = new File("C:\\Users\\jmaldonadoa\\Desktop\\prescomercial_crediflores_XMLBody\\Arboles\\Strategy Trees_13");
             SAXBuilder jdomBuilder = new SAXBuilder();
             Document jdomDocument = jdomBuilder.build(file);
             Element rss = jdomDocument.getRootElement();
@@ -449,6 +449,7 @@ public class IndexServlet1 extends HttpServlet {
             List<Object> variablesLocales;
             List<Object> listaObjetos;
             String respuestaOperaciones;
+            String respuestaCondiciones;
             
             for(Element funciones: listaFuncionesTemp){
                 listaFunciones = new ArrayList<>();
@@ -482,6 +483,11 @@ public class IndexServlet1 extends HttpServlet {
                             respuestaOperaciones += recursivaOperaciones(children.getChildren().get(2).getChildren().get(0), "");
                             listaElementos.add(respuestaOperaciones);
                             break;
+                        case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.ForEachTemplate":
+                            listaElementos.add("condicional");
+                            respuestaCondiciones = recursivaCondiciones(children, "");
+                            listaElementos.add(respuestaCondiciones);
+                            break;
                         default:
                             break;
                     }
@@ -510,6 +516,7 @@ public class IndexServlet1 extends HttpServlet {
      */
     private String recursivaOperaciones(Element element, String mensaje){
         mensaje += element.getChildren().get(0).getChildren().get(0).getText();
+        String tmp;
         switch (element.getAttributeValue("template")) {
             case "6dD5jXcnVIFN6oZUzoHr2bzdjFa.template7":
                 if(element.getChildren().get(2).getChildren().get(0).getChildren().size() >= 3){
@@ -519,6 +526,9 @@ public class IndexServlet1 extends HttpServlet {
                             break;
                         case "VTYokcf3R2g1avLUZdOfrF0ZHGX.MultiTemplate":
                             mensaje += " <b>*</b> ";
+                            break;
+                        case "VTYokcf3R2g1avLUZdOfrF0ZHGX.DivisionTemplate":
+                            mensaje += " <b>/</b> ";
                             break;
                         case "VTYokcf3R2g1avLUZdOfrF0ZHGX.EmptyTemplate":
                             return mensaje;
@@ -551,30 +561,55 @@ public class IndexServlet1 extends HttpServlet {
                     case "VTYokcf3R2g1avLUZdOfrF0ZHGX.MultiTemplate":
                         mensaje += " <b>*</b> ";
                         break;
+                    case "VTYokcf3R2g1avLUZdOfrF0ZHGX.DivisionTemplate":
+                        mensaje += " <b>/</b> ";
+                        break;
                     case "VTYokcf3R2g1avLUZdOfrF0ZHGX.EmptyTemplate":
                         return mensaje;
                     default:
                         mensaje += "Agregar función: " + element.getChildren().get(0).getChildren().get(0).getChildren().get(3).getChildren().get(0).getAttributeValue("template");
                         break;
                 }
+                //return recursivaOperaciones(element.getChildren().get(0).getChildren().get(0), mensaje);
                 switch (element.getChildren().get(1).getChildren().get(0).getAttributeValue("template")) {
                     case "VTYokcf3R2g1avLUZdOfrF0ZHGX.PlusTemplate":
-                        mensaje += " <b>+</b> ";
-                        break;
+                        tmp = parentesisFunciones(element.getChildren().get(0).getChildren().get(0), mensaje);
+                        tmp += " <b>+</b> " + recursivaOperaciones(element.getChildren().get(2).getChildren().get(0), "");
+                        return tmp;
                     case "VTYokcf3R2g1avLUZdOfrF0ZHGX.MultiTemplate":
-                        mensaje += " <b>*</b> ";
-                        break;
+                        tmp = parentesisFunciones(element.getChildren().get(0).getChildren().get(0), mensaje);
+                        tmp += " <b>*</b> " + recursivaOperaciones(element.getChildren().get(2).getChildren().get(0), "");
+                        return tmp;
+                    case "VTYokcf3R2g1avLUZdOfrF0ZHGX.DivisionTemplate":
+                        tmp = parentesisFunciones(element.getChildren().get(0).getChildren().get(0), mensaje);
+                        tmp += " <b>/</b> " + recursivaOperaciones(element.getChildren().get(2).getChildren().get(0), "");
+                        return tmp;
                     case "VTYokcf3R2g1avLUZdOfrF0ZHGX.EmptyTemplate":
                         return parentesisFunciones(element.getChildren().get(0).getChildren().get(0), mensaje);
                     default:
-                        return mensaje;
+                        return "Entra por el default";
                 }
-                return parentesisFunciones(element.getChildren().get(0).getChildren().get(0), mensaje) + 
-                       parentesisFunciones(element.getChildren().get(0).getChildren().get(0), mensaje);
+                /*return parentesisFunciones(element.getChildren().get(0).getChildren().get(0), mensaje)
+                     + recursivaOperaciones(element.getChildren().get(2).getChildren().get(0), mensaje);*/
             default:
                 System.out.println("----"+element.getAttributeValue("template")+"----");
                 return mensaje;
         }
+    }
+    
+    private String recursivaCondiciones(Element element, String mensaje){
+        mensaje += "If Todas estas se satisfacen<br/>";
+        String temp = "";
+        for (Element children : element.getChildren().get(1).getChildren()) {
+            mensaje += "&thinsp;" + children.getChildren().get(0).getChildren().get(0).getText();
+            mensaje += " <b>" + children.getChildren().get(2).getChildren().get(0).getText() + "</b> ";
+            mensaje += children.getChildren().get(3).getChildren().get(0).getChildren().get(0).getChildren().get(0).getText();
+        }
+        mensaje += "<br/>Then<br/>";
+        for (Element children : element.getChildren().get(2).getChildren()) {
+            mensaje += recursivaOperaciones(children, "");
+        }
+        return mensaje;
     }
     
     private String parentesisFunciones(Element element, String mensaje){

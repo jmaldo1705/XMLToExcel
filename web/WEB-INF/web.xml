@@ -12,6 +12,10 @@
         <servlet-name>ArchivosServlet</servlet-name>
         <servlet-class>servlets.ArchivosServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>EstrategiasServlet</servlet-name>
+        <servlet-class>servlets.EstrategiasServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>IndexServlet1</servlet-name>
         <url-pattern>/IndexServlet1</url-pattern>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>ArchivosServlet</servlet-name>
         <url-pattern>/ArchivosServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>EstrategiasServlet</servlet-name>
+        <url-pattern>/EstrategiasServlet</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>IndexServlet1</welcome-file>
